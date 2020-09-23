@@ -3,6 +3,30 @@ const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
+// Get Image from user.
+     var imgData  ;
+
+     function readFile(evt) {
+         var f = evt.target.files[0]; 
+
+            if (f) {
+                 if ( /(jpe?g|png|gif)$/i.test(f.type) ) {
+                         var r = new FileReader();
+                             r.onload = function(e) { 
+                                  imgData = e.target.result;
+                              }
+                          r.readAsDataURL(f);
+                      } else { 
+                            alert("Failed file type");
+                         }
+               }   else { 
+                      alert("Failed to load file");
+                    }
+      }
+
+document.getElementById('inputImg').addEventListener('change', readFile, false);
+
+
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
@@ -20,9 +44,10 @@ socket.on('roomUsers', ({ room, users }) => {
 });
 
 // Message from server
-socket.on('message', message => {
+socket.on('message', (message, getImgData) => {
   console.log(message);
-  outputMessage(message);
+
+  outputMessage(message, getImgData);
 
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -36,22 +61,32 @@ chatForm.addEventListener('submit', e => {
   const msg = e.target.elements.msg.value;
 
   // Emit message to server
-  socket.emit('chatMessage', msg);
-
+  socket.emit('chatMessage',msg ,imgData);
+   console.log(imgData);
+  // clear blobImg
   // Clear input
   e.target.elements.msg.value = '';
   e.target.elements.msg.focus();
 });
 
 // Output message to DOM
-function outputMessage(message) {
-  const div = document.createElement('div');
-  div.classList.add('message');
-  div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
-  <p class="text">
-    ${message.text}
-  </p>`;
-  document.querySelector('.chat-messages').appendChild(div);
+function outputMessage(message, getImgData) {
+     if(getImgData == undefined){
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
+      <br><p class="text">
+        ${message.text}<br>
+      </p>`;
+      document.querySelector('.chat-messages').appendChild(div);
+     }
+     else{      
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
+      <br><p class="text">${message.text}</p><img src="${getImgData}" width="50px"/> `;
+      document.querySelector('.chat-messages').appendChild(div); 
+     }
 }
 
 // Add room name to DOM

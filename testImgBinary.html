@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="inputImg" />
+    <img src="" id="blobImg" alt="">
+
+
+    <script type="text/javascript">
+
+function convertDataURIToBinary(dataURI) {
+	var BASE64_MARKER = ';base64,';
+	var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+	var base64 = dataURI.substring(base64Index);
+	var raw = window.atob(base64);
+	var rawLength = raw.length;
+	var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+	for(i = 0; i < rawLength; i++) {
+		array[i] = raw.charCodeAt(i);
+	}
+	return array;
+}
+
+     function readFile(evt) {
+        var f = evt.target.files[0]; 
+
+if (f) {
+    if ( /(jpe?g|png|gif)$/i.test(f.type) ) {
+        var r = new FileReader();
+        r.onload = function(e) { 
+            var base64Img = e.target.result;
+            var binaryImg = convertDataURIToBinary(base64Img);
+            var blob = new Blob([binaryImg], {type: f.type});
+            blobURL = window.URL.createObjectURL(blob);
+            
+            document.getElementById('blobImg').src = blobURL;
+        }
+        r.readAsDataURL(f);
+    } else { 
+        alert("Failed file type");
+    }
+} else { 
+    alert("Failed to load file");
+ }
+}
+
+
+document.getElementById('inputImg').addEventListener('change', readFile, false);
+    </script>
+</body>
+</html>

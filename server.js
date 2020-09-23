@@ -45,10 +45,10 @@ io.on('connection', socket => {
   });
 
   // Listen for chatMessage
-  socket.on('chatMessage', msg => {
+  socket.on('chatMessage', (msg, ImgData ) => {
     const user = getCurrentUser(socket.id);
-
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
+     console.log(typeof(ImgData));
+    io.to(user.room).emit('message', formatMessage(user.username, msg), ImgData);
   });
 
   // Runs when client disconnects
