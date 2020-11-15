@@ -28,14 +28,14 @@ document.getElementById('inputImg').addEventListener('change', readFile, false);
 
 
 // Get username and room from URL
-const { username, room } = Qs.parse(location.search, {
+const { username, room, status } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
-});
+}); 
 
 const socket = io();
 
 // Join chatroom
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom', { username, room, status });
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
@@ -59,11 +59,13 @@ chatForm.addEventListener('submit', e => {
 
   // Get message text
   const msg = e.target.elements.msg.value;
-
-  // Emit message to server
-  socket.emit('chatMessage',msg ,imgData);
-   console.log(imgData);
-  // clear blobImg
+         if(msg != ''){
+          // Emit message to server
+            socket.emit('chatMessage',msg ,imgData);
+            imgData = '';
+         }
+  
+  // clear blobImg 
   // Clear input
   e.target.elements.msg.value = '';
   e.target.elements.msg.focus();
@@ -75,7 +77,7 @@ function outputMessage(message, getImgData) {
       const div = document.createElement('div');
       div.classList.add('message');
       div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
-      <br><p class="text">
+      <p class="text">
         ${message.text}<br>
       </p>`;
       document.querySelector('.chat-messages').appendChild(div);
@@ -84,14 +86,19 @@ function outputMessage(message, getImgData) {
       const div = document.createElement('div');
       div.classList.add('message');
       div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
-      <br><p class="text">${message.text}</p><img src="${getImgData}" width="50px"/> `;
+      <br><p class="text">${message.text}</p><img src="${getImgData}" class="img-thumbnail" /> `;
       document.querySelector('.chat-messages').appendChild(div); 
      }
 }
 
 // Add room name to DOM
 function outputRoomName(room) {
+  var title = document.querySelector('.login100-form-title');
   roomName.innerText = room;
+  title.innerHTML =`<i class="fa fa-home">${room}</i>`;
+    if(room.length > 6 && room.length < 12){
+        title.style.fontSize = "30px";
+    }
 }
 
 // Add users to DOM
@@ -101,7 +108,11 @@ function outputUsers(users) {
   `;
 }
 
-
+$(document).ready(function(){
+   $(".fa-bars").click(function(){
+      $(".roomInfo").toggle();
+     });
+   });
 
 // Emoji-picker Code 
 
@@ -109,11 +120,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const button1 = document.querySelector('#emoji-button');
   const picker = new EmojiButton(
     {
-      emojiSize : "2em",
-      emojisPerRow:8,
+      emojiSize : "1.5em",
+      emojisPerRow:6,
       style :"twemoji",
       position:"left-start",
-      zIndex:5
+      zIndex:999
     });
 
   picker.on('emoji', emoji => {
@@ -124,3 +135,4 @@ window.addEventListener('DOMContentLoaded', () => {
     picker.pickerVisible ? picker.hidePicker() : picker.showPicker(button1);
   });
 });
+

@@ -1,8 +1,8 @@
 const users = [];
 
 // Join user to chat
-function userJoin(id, username, room) {
-  const user = { id, username, room };
+function userJoin(id, username, room, status) {
+  const user = { id, username, room, status };
 
   users.push(user);
 

@@ -59,7 +59,7 @@ a {
 }
 
 .chat-main {
-	display: grid;
+	display: -moz-grid;
 	grid-template-columns: 1fr 3fr;
 }
 

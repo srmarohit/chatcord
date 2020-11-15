@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activated Rooms</title>
+    <script type="text/javascript">
+       if(!sessionStorage.getItem('chatUser')){
+            window.location = "index.html";
+       }
+    </script>
+   
+    	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+      <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+      <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous"
+      />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/chat.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
+
+      <!--===============================================================================================-->
+      
+</head>
+<body>
+  
+
+    <div class="limiter">
+      <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-5 p-b-54">
+          
+          <div class=" flex flex-c-m m-b-20">
+						<a href="/home.html" class="login100-social-item bg1 ">
+							<i class="fa fa-power-off"></i>
+						</a>
+
+            <span class="login100-form-title   bg2">  </span>
+
+						
+              <a href="#" class="login100-social-item bg3 m-l-0 ">
+                <i class="fa fa-bars"></i>
+                 </a>
+            
+          </div>
+          
+           <div class="flex flex-justify-center roomInfo display">        
+              <h3><i class="fas fa-comments"></i> Room Name:</h3>
+              <h2 id="room-name"></h2>
+              <h3><i class="fas fa-users"></i> Users</h3>
+              <ul id="users"></ul>
+             </div>
+           
+
+            <main class="chat-main">
+              <!-- <div class="chat-sidebar">
+                <h3><i class="fas fa-comments"></i> Room Name:</h3>
+                <h2 id="room-name"></h2>
+                <h3><i class="fas fa-users"></i> Users</h3>
+                <ul id="users"></ul>
+              </div> -->
+              <div class="chat-messages"></div>
+            </main>
+
+           <form id="chat-form">
+            <div class="wrap-input100 d-flex justify-content-start" data-validate = "Message is required">
+                <button id="emoji-button" type="button"><i class="fas fa-smile"></i></button>
+                <input class="input100" id="msg" type="text" placeholder="Type your Chat Message.." >
+            </div>
+           <div class="mt-1">
+            <input type="file" id="inputImg" style="display:none" capture="camera"/>
+            <span id="insertDoc"><i class="fas fa-camera p-r-5"></i></span>
+            <button class="btn btn-md bg-info" type="submit"><i class="fas fa-paper-plane">Send</i></button>
+           </div> 
+          </form>
+        </div>
+     </div>
+    </div>  
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+  <!--===============================================================================================-->
+    
+
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+  integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+  crossorigin="anonymous"
+></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/main.js"></script> 
+<script>
+$(document).ready(function(){
+  $('#insertDoc').click(function(){
+   $("input[type='file']").trigger('click');
+  });   
+ });     
+</script>
+</body>
+</html>
+
+ 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activated Rooms</title>
+    <script type="text/javascript">
+       if(!sessionStorage.getItem('chatUser')){
+            window.location = "index.html";
+       }
+    </script>
+    	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+      <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+      <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+      <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+      <!--===============================================================================================-->
+      
+</head>
+<body>
+  
+
+    <div class="limiter">
+      <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-5 p-b-54">
+          <div class="search-box flex flex-c-m">
+            <input class="search-text" type="text"  name=""  placeholder="Search Rooms..">
+          </div>
+          
+          <div class=" flex flex-c-m m-b-20">
+						<a href="/create.html" class="login100-social-item bg1 ">
+							<i class="fa fa-plus"></i>
+						</a>
+
+            <span class="login100-form-title p-b-5 p-l-30 p-r-30 center bg2">
+              Rooms	<i class="fa fa-home"></i>
+            </span>
+
+						
+              <a href="#" class="login100-social-item bg3 m-l-0 search-btn">
+                <i class="fa fa-search"></i>
+              </a>
+            
+					</div>
+      </div>
+     </div>
+    </div>  
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+  <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+  <!--===============================================================================================-->
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+       const socket = io();
+       var container = document.querySelector('.wrap-login100');
+       
+
+       var pubRooms = [];
+         socket.on('connectUser',({userData})=>{
+              userData.forEach(data => {
+                   if(data.status !='private'){
+                         pubRooms.push(data.room);
+                     }
+                         });  // forEach Closed..
+                         pubRooms = [...new Set(pubRooms)];
+                         console.log(pubRooms);     
+                         
+                         pubRooms.forEach(pubroom=>{
+                            // Create Neccesary Form Element ..
+                    var form = document.createElement('form');
+                    form.classList.add('login100-form');
+                  var username = document.createElement('input');
+                  var room = document.createElement('input');
+                  var status = document.createElement('input');
+                  var btn = document.createElement('button');
+                  btn.classList.add('login100-form-btn');
+                  var div1 = document.createElement('div');
+                   var div2 = document.createElement('div');
+                  var div3 = document.createElement('div');
+             div1.classList.add('container-login100-form-btn');
+       div2.classList.add('wrap-login100-form-btn');
+       div3.classList.add('login100-form-bgbtn');
+       div1.append(div2);
+       div2.append(div3);
+       div2.append(btn); 
+
+                  username.setAttribute('type','hidden');
+                  username.setAttribute('name','username');
+                  username.setAttribute('value',sessionStorage.getItem('chatUser'));
+
+                  room.setAttribute('type','hidden');
+                  room.setAttribute('name','room');
+                  room.setAttribute('value',pubroom);
+
+                  status.setAttribute('type','hidden');
+                  status.setAttribute('name','status');
+                  status.setAttribute('value','public');
+
+
+                  form.setAttribute('action','chat1.html');
+                  form.setAttribute('method','GET');
+
+                  btn.setAttribute('type','submit');
+                  btn.innerHTML = `<span class="font-weight-bold text-nowrap">${pubroom} <i class="fa fa-home"></i></span>` ;
+
+                  form.append(username);
+                  form.append(room);
+                  form.append(status);
+                  form.append(div1);
+                  container.append(form);
+                         });
+                    });
+
+           $(document).ready(function(){
+              $(".search-btn").click(function(){
+                 $(".search-box").css('display','inline'); 
+               //  $(".search-text").focus();               
+              });
+
+              $(".search-text").focusout(function(){
+                   $(".search-box").css("display", "none");
+               });    
+           });     
+
+         
+    </script>
+</body>
+</html>
+
+ 
