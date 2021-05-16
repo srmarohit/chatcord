@@ -49,7 +49,7 @@
     <div class="limiter">
       <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
         
-        <div class="wrap-login100 p-l-55 p-r-55 p-t-5 p-b-54">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-5 p-b-54" style="position:relative">
           
           <div class=" flex flex-c-m m-b-20">
 						<a href="/home.html" class="login100-social-item bg1 ">
@@ -83,15 +83,15 @@
               <div class="chat-messages"></div>
             </main>
 
-           <form id="chat-form">
+           <form id="chat-form" style="position:absolute; padding:1px 5px">
             <div class="wrap-input100 d-flex justify-content-start" data-validate = "Message is required">
                 <button id="emoji-button" type="button"><i class="fas fa-smile"></i></button>
                 <input class="input100" id="msg" type="text" placeholder="Type your Chat Message.." >
             </div>
-           <div class="mt-1">
+           <div class="mt-1 d-flex">
             <input type="file" id="inputImg" style="display:none" capture="camera"/>
             <span id="insertDoc"><i class="fas fa-camera p-r-5"></i></span>
-            <button class="btn btn-md bg-info" type="submit"><i class="fas fa-paper-plane">Send</i></button>
+            <button class="btn btn-md bg-info flex-fill" type="submit"><i class="fas fa-paper-plane">Send</i></button>
            </div> 
           </form>
         </div>
