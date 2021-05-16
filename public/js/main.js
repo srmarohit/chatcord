@@ -136,3 +136,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+let roomTitle = document.querySelector(".login100-form-title");
+if(roomTitle.innerText.length > 5){
+     alert()
+}
+
